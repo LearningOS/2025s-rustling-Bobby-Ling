@@ -27,15 +27,20 @@
 //
 // You should NOT modify any existing code except for adding two lines of attributes.
 
-// I AM NOT DONE
-
+// extern 用于声明外部函数接口
 extern "Rust" {
     fn my_demo_function(a: u32) -> u32;
+    // 这样外部代码可以用不同的名称调用同一个函数
+    #[link_name = "my_demo_function"]
     fn my_demo_function_alias(a: u32) -> u32;
 }
 
 mod Foo {
     // No `extern` equals `extern "Rust"`.
+    // 强制禁用 Rust 的名称修饰(name mangling), 使得函数在编译后的符号表中保持原始名称
+    // 无论函数定义在哪个模块中, 只要标记了 #[no_mangle], 它的符号名就是全局唯一的, 可以被外部直接调用
+    // 因此, Foo::my_demo_function 和 Bar::my_demo_function 如果都用 #[no_mangle] 导出, 会导致符号冲突
+    #[no_mangle]
     fn my_demo_function(a: u32) -> u32 {
         a
     }

@@ -3,34 +3,55 @@
 	This problem requires you to implement a basic BFS algorithm
 */
 
-//I AM NOT DONE
 use std::collections::VecDeque;
 
 // Define a graph
 struct Graph {
-    adj: Vec<Vec<usize>>, 
+    adj: Vec<Vec<usize>>,
 }
 
 impl Graph {
     // Create a new graph with n vertices
     fn new(n: usize) -> Self {
         Graph {
+            // 邻接图
             adj: vec![vec![]; n],
         }
     }
 
     // Add an edge to the graph
     fn add_edge(&mut self, src: usize, dest: usize) {
-        self.adj[src].push(dest); 
-        self.adj[dest].push(src); 
+        self.adj[src].push(dest);
+        self.adj[dest].push(src);
     }
 
     // Perform a breadth-first search on the graph, return the order of visited nodes
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
-        
-		//TODO
+		let mut visit_queue: VecDeque<usize> = VecDeque::new();
+        let mut visited = vec![false; self.adj.len()];
+        // let mut visit_order = vec![];
+        let mut visit_order = Vec::with_capacity(self.adj.len());
 
-        let mut visit_order = vec![];
+        visit_queue.push_back(start);
+
+        while let Some(current) = visit_queue.pop_front() {
+            // visit current
+            if !visited[current] {
+                visited[current] = true;
+                visit_order.push(current);
+            };
+            // push vertices of current to queue
+            // self.adj[current].iter().for_each(|x|{
+            //     if !visited[*x] {
+            //         visit_queue.push_back(*x)
+            //     }
+            // });
+            for &neighbor in &self.adj[current] {
+                if !visited[neighbor] {
+                    visit_queue.push_back(neighbor);
+                }
+            }
+        }
         visit_order
     }
 }

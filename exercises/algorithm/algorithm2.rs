@@ -2,8 +2,6 @@
 	double linked list reverse
 	This problem requires you to reverse a doubly linked list
 */
-// I AM NOT DONE
-
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
 use std::vec::*;
@@ -72,8 +70,14 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn reverse(&mut self){
-		// TODO
+	pub fn reverse(&mut self) {
+        let mut read_ptr = self.start;
+		while let Some(mut current_ptr) = read_ptr {
+            let current_node = unsafe { current_ptr.as_mut() };
+            read_ptr = current_node.next;
+            std::mem::swap(&mut current_node.prev, &mut current_node.next);
+        }
+        std::mem::swap(&mut self.start, &mut self.end);
 	}
 }
 

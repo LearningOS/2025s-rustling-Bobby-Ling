@@ -7,14 +7,19 @@
 // Execute `rustlings hint traits1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 trait AppendBar {
     fn append_bar(self) -> Self;
 }
 
 impl AppendBar for String {
     // TODO: Implement `AppendBar` for type `String`.
+    // mut self 是 self 的一种更具体的变体, 它不仅接收所有权, 还允许可变修改.
+    // Rust 允许实现时比 trait 定义更宽松的可变性(即从 self 到 mut self)
+    fn append_bar(mut self) -> Self {
+        // self要能够mut
+        self.push_str("Bar");
+        self
+    }
 }
 
 fn main() {

@@ -22,6 +22,8 @@ mod tests {
     #[test]
     fn test_array_and_vec_similarity() {
         let (a, v) = array_and_vec();
+        // 由于 a 是固定长度的数组([i32; 4]), 而 v 是动态长度的向量(Vec<i32>), 直接比较 a 和 v 会因类型不同而报错.
+        // 通过 v[..] 将向量转换为切片(&[i32]), 就可以与数组 a 进行比较(Rust 中数组可以自动解引用为切片).
         assert_eq!(a, v[..]);
     }
 }

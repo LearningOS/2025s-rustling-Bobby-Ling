@@ -20,8 +20,6 @@
 //
 // No hints this time!
 
-// I AM NOT DONE
-
 pub enum Command {
     Uppercase,
     Trim,
@@ -32,11 +30,23 @@ mod my_module {
     use super::Command;
 
     // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
+    pub fn transformer(input: Vec<(&str, Command)>) -> Vec<String> {
         // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
+        let mut output: Vec<String> = vec![];
+        // string: &&str
+        // 在大多数情况下, Rust 会自动解引用(deref), 所以 &&str 可以直接当作 &str 使用.
         for (string, command) in input.iter() {
             // TODO: Complete the function body. You can do it!
+            match command {
+                // append: 将另一个 Vec 的所有元素移动到当前 Vec 的末尾, 并清空源 Vec.
+                // to_uppercase trim 等会自动处理 &&str
+                Command::Uppercase => output.push(string.to_uppercase()),
+                Command::Trim => output.push(string.trim().to_owned()),
+                // String 实现了 Add<&str>: String + &str
+                // &str + &str 没有实现 +
+                // String + String 需要将其中一个 String 转换为 &str(通过 & 或 as_str())
+                Command::Append(x) => output.push(string.to_string() + "bar".repeat(*x).as_str()),
+            };
         }
         output
     }
@@ -45,7 +55,7 @@ mod my_module {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]

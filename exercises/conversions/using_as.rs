@@ -10,11 +10,14 @@
 // Execute `rustlings hint using_as` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 fn average(values: &[f64]) -> f64 {
     let total = values.iter().sum::<f64>();
-    total / values.len()
+    /*
+    1. use std::io as Io;
+    2. let ptr: *const u8 = &10 as *const u8;
+    3. let y: f64 = x as f64;
+    */
+    total / values.len() as f64
 }
 
 fn main() {

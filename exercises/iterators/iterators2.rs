@@ -6,16 +6,17 @@
 // Execute `rustlings hint iterators2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 // Step 1.
 // Complete the `capitalize_first` function.
 // "hello" -> "Hello"
 pub fn capitalize_first(input: &str) -> String {
     let mut c = input.chars();
+    // 第一个字母
     match c.next() {
         None => String::new(),
-        Some(first) => ???,
+        Some(first) => {
+            first.to_uppercase().collect::<String>() + c.as_str()
+        }
     }
 }
 
@@ -24,7 +25,11 @@ pub fn capitalize_first(input: &str) -> String {
 // Return a vector of strings.
 // ["hello", "world"] -> ["Hello", "World"]
 pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
-    vec![]
+    let mut result = Vec::new();
+    words.iter().for_each(|x| {
+        result.push(capitalize_first(x));
+    });
+    result
 }
 
 // Step 3.
@@ -32,7 +37,18 @@ pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
 // Return a single string.
 // ["hello", " ", "world"] -> "Hello World"
 pub fn capitalize_words_string(words: &[&str]) -> String {
-    String::new()
+    // capitalize_words_vector(words)返回Vec<String>, 故这里每一个迭代的元素是&String
+    // 由于没有实现FromIterator<&String>, 因此不能这么用
+    // 注:
+    // `String` implements `FromIterator<&char>`
+    // `String` implements `FromIterator<&str>`
+    // `String` implements `FromIterator<String>`
+    // `String` implements `FromIterator<char>`
+    // ...
+    // capitalize_words_vector(words).iter().collect::<String>()
+
+    // 这里每一个就是&str了
+    words.iter().map(|x| capitalize_first(x)).collect::<String>()
 }
 
 #[cfg(test)]
